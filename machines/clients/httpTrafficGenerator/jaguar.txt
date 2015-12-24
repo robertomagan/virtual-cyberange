@@ -1,0 +1,2 @@
+GET /servlet/DateTime
+POST /servlet/Lottery,name=vicky&no=4

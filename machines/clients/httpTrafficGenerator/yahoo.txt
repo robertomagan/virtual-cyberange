@@ -1,0 +1,3 @@
+GET /
+GET /mail
+GET /nofound

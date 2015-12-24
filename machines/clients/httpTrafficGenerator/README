@@ -1,0 +1,7 @@
+Vikram Rangnekar 
+CISC479 Webserver Technologies
+
+servers.txt 		- Contains the list of users you want to simulate
+./make 			- compile the code
+java traffic 		- execute the code
+

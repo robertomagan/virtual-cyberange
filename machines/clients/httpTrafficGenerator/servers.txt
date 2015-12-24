@@ -1,0 +1,5 @@
+#nametag	server:port		urlfile		hits
+webserver	192.168.56.104:80	servidorWeb.txt		1
+#yahoo		www.yahoo.com:80	yahoo.txt	1
+#google		www.google.com:80	google.txt	1
+#vicky		jaguar.cis.udel.edu:8124 jaguar.txt	20
