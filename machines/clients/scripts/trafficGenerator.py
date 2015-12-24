@@ -1,12 +1,12 @@
 #!/usr/bin/python
 
-# Autor: Gabriel Maciá
+# Autor: Gabriel Macia
 # Fecha: 14/12/2015
 
-# Uso: trafficGenerator <destino> <clientes>
+# Uso: trafficGenerator -n <NumeroClientes> -t <TiempoSimulacionSegundos>
 # Programa para ejecutar una simulacion de varios clientes haciendo peticiones
 # http a un servidor <destino>. Ver README.md para detalles sobre el proyecto httpTrafficGenerator
-# que se ha utilizado aqui. (El comando de ejecución que se lanza desde este script es 'java traffic'
+# que se ha utilizado aqui. (El comando de ejecucion que se lanza desde este script es 'java traffic'
 
 import time
 from threading import Thread, currentThread
