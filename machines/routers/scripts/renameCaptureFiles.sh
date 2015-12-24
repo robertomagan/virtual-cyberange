@@ -1,8 +1,14 @@
 #!/bin/bash
 
+# Este script busca en el directorio $DIR los archivos que se llamen nfcapd.<fecha> y los renombra a nfcapd_hostname.<fecha>
+
+
 HOSTNAME=`hostname`
 DIR='../capturas/'
-FILES_ORIG='nfcapd*'
+
+# Inicio de script
+
+FILES_ORIG="$(ls $DIR |grep -v -e $HOSTNAME | grep nfcapd)"
 
 echo [+] Renombrando ficheros en directorio $DIR con nombre de host: $HOSTNAME
 
