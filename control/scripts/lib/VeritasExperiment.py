@@ -98,7 +98,12 @@ class VeritasExperiment:
 		time.sleep(instanteEjecucion)
 		tInicial = time.strftime('%X')
 		beginInterval= datetime.datetime.now()
-		output = subprocess.check_output(command, shell=True).decode('utf-8')
+		try:
+			output = subprocess.check_output(command, shell=True).decode('utf-8')
+		
+		except Exception as e:
+			output = "Error. Excepcion recibida en proceso: " + str(e)
+		
 		tFinal = time.strftime('%X')
 		endInterval = datetime.datetime.now()
 		interval = endInterval - beginInterval
