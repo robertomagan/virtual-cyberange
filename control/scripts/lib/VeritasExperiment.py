@@ -18,7 +18,7 @@ from threading import Thread
 
 #LOGFILENAME = 'DoS_attack.log'
 #LOGLEVEL = logging.DEBUG
-#LOGDIR = '../log/'
+LOGDIR = '../log/'
 
 
 
@@ -31,7 +31,7 @@ class VeritasExperiment:
 		self.comandosProcesado = []
 		self.experimentName = experimentName
 		logging.basicConfig(
-                        #filename=LOGDIR + time.strftime('%y%m%d_%H.%M.%S_')+ LOGFILENAME,
+                        #filename=LOGDIR + experimentName + time.strftime('.%y%m%d%H%M%S') + '.log',
                         level=logging.DEBUG,
                         format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
                         )
@@ -145,7 +145,7 @@ class VeritasExperiment:
 		log.info ('[+] Inicio de procesado: ' + time.strftime('%X %d/%m/%y'))
 
 		for comando in self.comandosProcesado:
-			executeCommand()
+			self.executeCommand(0, comando[1])
 
 		log.info ('[+] Final de procesado: ' + time.strftime('%X %d/%m/%y'))    
 
