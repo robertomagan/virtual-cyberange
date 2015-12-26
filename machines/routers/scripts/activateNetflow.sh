@@ -26,7 +26,7 @@ iptables -I FORWARD -i eth1 -j NETFLOW
 iptables -I FORWARD -i eth2 -j NETFLOW
 
 echo "Hecho"
-iptables -L -n
+# iptables -L -n
 
 echo
 echo [+] Activando el colector con el comando: nfcapd -w -D -t 600 -l $COLECTOR_DIR -I $HOSTNAME -p 12345
