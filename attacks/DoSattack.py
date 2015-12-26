@@ -17,7 +17,7 @@ import subprocess
 
 LOGFILENAME = 'DoS_attack.log'
 LOGLEVEL = logging.DEBUG
-LOGDIR = '../log/'
+LOGDIR = '.'
 
 ##########################################
 
