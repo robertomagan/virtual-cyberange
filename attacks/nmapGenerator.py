@@ -7,7 +7,7 @@ import os
 
 duration = 3600 # Seconds (1 hour)
 interval = 300 #Seconds - 5 minutes
-nmapCommand = 'nmap -A 192.168.56.100/28' # Scan from 192.168.56.96-101
+nmapCommand = 'nmap -A 172.16.0.0/24' # Scan from 192.168.56.96-101
 
 iteraciones = 0
 
