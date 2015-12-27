@@ -4,6 +4,12 @@
 # Autor: Gabriel Maciá
 # Fecha: 14/12/2015
 
+
+## IMPORTANTE: 
+# Para ejecutar este script en una maquina hay que habilitar sudo sin contraseña insertando en 
+# /etc/sudoers.d un fichero con el contenido nesg ALL=(ALL:ALL) NOPASSWD:ALL
+# Adicionalmente, también hay que instalar hping3 en la máquina que origina el ataque. sudo apt-get install hping3
+
 import sys
 import logging
 import os
@@ -52,7 +58,7 @@ if __name__ == '__main__':
         print 'hping3 is not installed in your system. Please, install it'
         #exit(-1)
     
-    command = ('hping3 -w 64 -S' + 
+    command = ('sudo hping3 -w 64 -S' + 
                 ' -d ' + str(args.attackDuration) +  
                 ' -p ' + str(args.destPort) + 
                 ' --' + args.attackSpeed + 
