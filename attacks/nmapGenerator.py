@@ -4,10 +4,19 @@
 
 import time
 import os
+import argparse
 
-duration = 3600 # Seconds (1 hour)
-interval = 300 #Seconds - 5 minutes
-nmapCommand = 'nmap -A 172.16.0.0/24' # Scan from 192.168.56.96-101
+parser = argparse.ArgumentParser (description='Execute a nmap scan against a destination (network or host')
+parser.add_argument(dest='destination', metavar='destination', action='store', help='IP address/segment of the victims', nargs=1)
+parser.add_argument('-i', dest='interval', metavar='interval', action='store', default=300, help='interval(seconds) between consecutive scans. Default 5 min')
+parser.add_argument('-d', dest='duration', metavar='duration', action='store', default=3600, help='total duration (seconds) of the scan process. Default 1h')
+
+args = parser.parse_args()
+
+
+duration = args.duration # Seconds (default 1 hour)
+interval = args.interval #Seconds (default 5 minutes)
+nmapCommand = 'nmap -A ' + args.destination 
 
 iteraciones = 0
 
