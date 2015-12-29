@@ -14,28 +14,35 @@
 
 import random
 import sys
-
-IP_ATACANTE_SPOOF_PUBLICAS = '192.168.56.5'
-IP_ATACANTE_SPOOF_PRIVADAS = '192.168.56.4'
-IP_CLIENTES = '192.168.56.103'
-IP_SERVIDOR = '192.168.56.104'
+import argparse
+import datetime
 
 
-def generaListaIpsPrivadas ():
+parser = argparse.ArgumentParser (description='Spoof a origin IP to destination IPs in a given range')
+parser.add_argument('-s', dest='atacante_ip', metavar='atacante_ip', action='store', help='IP address of the victim', nargs=1)
+parser.add_argument('-t', dest='type', metavar='type', action='store', default='public', choices=['private', 'public'], help='public/private. default: public')
+parser.add_argument('--orig_csv', dest='dump_original', metavar='dump_original', action='store', help='Fichero dump original (formato CSV).')
+parser.add_argument('--dest_csv', dest='dump_destino', metavar='dump_destino', action='store', help='Fichero dump destino (formato CSV).')
+args = parser.parse_args()
+
+
+
+def generaListaIpsPrivadas (size): #Size es el tamaño de la lista
+
+	rangoPrivadas = '192.168.31.'
 	listaIpsPrivadas = []
 
 	i=0
-	while i < 97:
+	while i < size:
 
+		random.seed(datetime.datetime.now()) 
 		prefijo = random.randint(1,254)
 		if (prefijo <96 or prefijo >111):
-			ip = '192.168.56.' + str(prefijo)
+			ip = rangoPrivadas + str(prefijo)
 			if ip not in listaIpsPrivadas:
 				listaIpsPrivadas.append(ip)
 				i += 1
-
-	# Al final anado tres del rango
-	listaIpsPrivadas += ['192.168.56.103', '192.168.56.105', '192.168.56.100']
+ 
 	return listaIpsPrivadas
 
 def generaListaIpsPublicas ():
@@ -50,35 +57,29 @@ def generaListaIpsPublicas ():
 		i = i+1
 	return listaIpsPublicas
 
-#main
 
-if len(sys.argv)<3:
-	print "Uso: ./cambiaIP.py dumpOriginal.csv dumpFinal.csv"
-	exit(0)
+DUMP_MODIFICADO = args.dump_destino
+DUMP_ORIGINAL = args.dump_original
+IP_ATACANTE = args.atacante_ip[0]
 
+#print "ip: " + IP_ATACANTE
+#print "fin: " + DUMP_ORIGINAL
 
-DUMP_MODIFICADO = sys.argv[2]
-DUMP_ORIGINAL = sys.argv[1]
-
-
-listaIpsPrivadas = generaListaIpsPrivadas()
-listaIpsPublicas = generaListaIpsPublicas()
+if args.type == 'private':
+	listaIps = generaListaIpsPrivadas(120)
+else: 
+	listaIps = generaListaIpsPublicas()
 
 with open (DUMP_MODIFICADO, "w") as fout:
 	with open (DUMP_ORIGINAL, "r") as fin:
 		for line in fin:
 			cad = line.split(',')
 			if cad[5] != '4444' and cad[6] != '4444':
-				if cad[3] == IP_ATACANTE_SPOOF_PRIVADAS or cad[3] == IP_CLIENTES:
-					cad[3] = random.choice(listaIpsPrivadas)
-				if cad[4] == IP_ATACANTE_SPOOF_PRIVADAS or cad[4] == IP_CLIENTES:
-					cad[4] = random.choice(listaIpsPrivadas)
-				if cad[3] == IP_ATACANTE_SPOOF_PUBLICAS:
-					cad[3] = random.choice(listaIpsPrivadas)
-				if cad[4] == IP_ATACANTE_SPOOF_PUBLICAS:
-					cad[4] = random.choice(listaIpsPrivadas)
-				
-			
+				if cad[3] == IP_ATACANTE:
+					cad[3] = random.choice(listaIps)
+				if cad[4] == IP_ATACANTE:
+					cad[4] = random.choice(listaIps)
+
 			fout.write(','.join(cad))
 			
 print 'Output generado en: ' + DUMP_MODIFICADO	
