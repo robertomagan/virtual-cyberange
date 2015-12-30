@@ -16,7 +16,7 @@ args = parser.parse_args()
 
 duration = args.duration # Seconds (default 1 hour)
 interval = args.interval #Seconds (default 5 minutes)
-nmapCommand = 'nmap -A -T5 ' + args.destination[0]
+nmapCommand = 'sudo nmap -n -sS ' + args.destination[0]  # -n: no DNS resolution, -sS SYN Stealth scan 
 
 iteraciones = 0
 
