@@ -91,13 +91,22 @@ class VeritasExperiment:
 		print '------------------------------------\n'
 
 
-	def executeCommand (self, instanteEjecucion, command):
+	def executeCommand (self, instanteEjecucion, command, n):
 		
 		log = self.log
 		
 		time.sleep(instanteEjecucion)
 		tInicial = time.strftime('%X')
 		beginInterval= datetime.datetime.now()
+		
+		cabecera = ('   -->(execute[' + str(n) + '])$ ' + 
+				  command +
+				  ' (' +
+				  tInicial +
+				  ')'
+				  )		
+		log.info(cabecera)
+				
 		try:
 			output = subprocess.check_output(command, shell=True).decode('utf-8')
 		
@@ -108,7 +117,7 @@ class VeritasExperiment:
 		endInterval = datetime.datetime.now()
 		interval = endInterval - beginInterval
 		 
-		cabecera = ('   -->(result)$ ' + 
+		cabecera = ('   -->(result[' + str(n) + '])$ ' + 
 				  command +
 				  ' (' +
 				  str(interval.seconds/3600)+'d'+str(interval.seconds%3600/60)+'m'+str(interval.seconds%60)+'s' + 
@@ -133,8 +142,11 @@ class VeritasExperiment:
 		
 		log.info ('[+] Inicio de ejecucion de comandos')
 		threads = []
+		n = 1 # Numero de indice que identificara al comando ejecutado
+		
 		for twait, command in self.comandosEjecucion: 
-			t = Thread(target=self.executeCommand, args=(twait, command,))
+			t = Thread(target=self.executeCommand, args=(twait, command, n))
+			n = n+1
 			threads.append(t)
 			t.start()
 
@@ -145,7 +157,8 @@ class VeritasExperiment:
 		log.info ('[+] Inicio de procesado: ' + time.strftime('%X %d/%m/%y'))
 
 		for comando in self.comandosProcesado:
-			self.executeCommand(0, comando[1])
+			self.executeCommand(0, comando[1], n)
+			n = n+1
 
 		log.info ('[+] Final de procesado: ' + time.strftime('%X %d/%m/%y'))    
 
