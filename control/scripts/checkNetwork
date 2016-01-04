@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Este script comprueba la conectividad de todas las maquinas de la red VERITAS
+
+HOSTS_LINUX="m1.2 m2.2 m3.2 routerR1 routerR2 routerR3 borderRouter dmz wwwserver atacante"
+HOSTS_WINDOWS="m1.1 m2.1 m3.1"
+DESTINOS="10.0.0.1 172.16.0.4" # Prueba ping a wwwserver y a dmz
+
+echo "Comprobacion de maquinas LINUX"
+echo "-------------------------------"
+
+for host in $HOSTS_LINUX
+do
+	for destino in $DESTINOS
+	do
+		echo "[+] Comprobando $host --> $destino"
+
+		ssh nesg@$host "ping $destino -c 1 > /dev/null"
+		if [ $? -gt 0 ];
+		then
+			echo "---> Error en comunicacion desde $host a $destino"
+		fi
+	done
+done
+
+echo
+echo "Comprobacion de maquinas WINDOWS"
+echo "-------------------------------"
+
+
+for host in $HOSTS_WINDOWS
+do
+	for destino in $DESTINOS
+	do
+		echo "[+] Comprobando $host --> $destino"
+
+		ssh nesg@$host "ping -n 1 $destino | find \"Respuesta\""
+		if [ $? -gt 0 ];
+		then
+			echo "---> Error en comunicacion desde $host a $destino"
+		fi
+	done
+done
+
+
+
+
+exit
+
