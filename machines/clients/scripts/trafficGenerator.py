@@ -14,6 +14,7 @@ import random
 import os
 from optparse import OptionParser
 import logging 
+import fileinput
 
 ##########################################
 # DEFINICION DE VARIABLES Y CONSTANTES
@@ -65,17 +66,28 @@ if __name__ == '__main__':
 	parser = OptionParser()
 	parser.add_option('-n', default=1, type='int', dest = 'clients', help='Number of clients to make requests')
 	parser.add_option('-t', default=1, type='int', dest = 'time', help='duration of the traffic (seconds)')
+	parser.add_option('-d', default='10.0.0.1', dest = 'webserver', help='IP of the destination web server')
 
 	(options, args) = parser.parse_args()
 	tSimulation = options.time
 	
 	log.info ('Inicio a las: ' + time.strftime('%X %d/%m/%y'))
 
-	print 'Generating traffic to web server'
+	print 'Generating traffic to ' + options.webserver
 	print '--------------------------------------------'
 	print 'Simulation time: ' + str(tSimulation) + ' seconds'
 	print 'Number of simultaneous clients: ' + str(options.clients)
 	print '--------------------------------------------'
+
+
+	# Esto reemplaza la linea en el fichero servers.txt en la que aparece webserver
+	# por la IP del webserver indicado como destino en las opciones.
+	for line in fileinput.input('../httpTrafficGenerator/servers.txt', inplace=True):
+		l=line.strip().split()
+		if l[0]=='webserver':
+			l[1] = options.webserver + ':80'
+		print '\t'.join(c for c in l)
+
 
 	# A thread is started for every connection to the server. Note that every connection could get n URLs in a persistent connection
 	threads = []
