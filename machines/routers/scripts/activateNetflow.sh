@@ -16,7 +16,7 @@ echo "[+] Desactivando configuracion anterior si esta activa..."
 echo "[+] Activando el modulo ipt_netflow, con destino 127.0.0.1:12345"
 modprobe ipt_NETFLOW destination=127.0.0.1:12345
 
-echo "Hecho"
+#echo "Hecho"
 echo "[+] Insertando reglas en cortafuegos"
 
 # Solo insertamos en la regla FORWARD porque solo estamos interesados en el tráfico que se intercambian los nodos  de la red
@@ -25,10 +25,10 @@ echo "[+] Insertando reglas en cortafuegos"
 iptables -I FORWARD -i eth1 -j NETFLOW
 iptables -I FORWARD -i eth2 -j NETFLOW
 
-echo "Hecho"
+#echo "Hecho"
 # iptables -L -n
 
-echo
+#echo
 echo [+] Activando el colector con el comando: nfcapd -w -D -t 600 -l $COLECTOR_DIR -I $HOSTNAME -p 12345
 
 nfcapd -w -D -t 600 -l $COLECTOR_DIR -I $HOSTNAME -p 12345
