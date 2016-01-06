@@ -82,11 +82,25 @@ if __name__ == '__main__':
 
 	# Esto reemplaza la linea en el fichero servers.txt en la que aparece webserver
 	# por la IP del webserver indicado como destino en las opciones.
+	# Usamos un lock para evitar que se modifique el fichero servers.txt por dos hebras a la vez (race condition)
+	
+	
+	while os.path.isfile("./lock"):
+	    print "Aun existe lock"
+	    time.sleep(1)	
+		   # Cuando ya no hay lock lo capturamos nosotros
+	f = open ('./lock', 'w')
+	
+
 	for line in fileinput.input('../httpTrafficGenerator/servers.txt', inplace=True):
 		l=line.strip().split()
 		if l[0]=='webserver':
 			l[1] = options.webserver + ':80'
 		print '\t'.join(c for c in l)
+
+		#Liberamos el lock file
+	f.close()
+	os.system('rm ./lock')
 
 
 	# A thread is started for every connection to the server. Note that every connection could get n URLs in a persistent connection
