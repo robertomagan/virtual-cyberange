@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
 
 	logging.basicConfig(
-						#filename=LOGDIR + time.strftime('%y%m%d_%H.%M.%S_')+ LOGFILENAME,
+						filename=LOGDIR + time.strftime('%y%m%d_%H.%M.%S_')+ LOGFILENAME,
 						level=logging.DEBUG,
 						format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
 						)
