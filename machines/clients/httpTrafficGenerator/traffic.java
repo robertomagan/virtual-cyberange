@@ -6,8 +6,9 @@ class traffic {
 	public static void main(String args[]) throws IOException {
 		String line;
 		int i;
-		
-		FileReader instream= new FileReader(new File("servers.txt"));
+
+		//FileReader instream= new FileReader(new File("servers.txt"));
+		FileReader instream= new FileReader(new File(args[0]));
 		BufferedReader in = new BufferedReader(instream);
 		
 		Vector tpool = new Vector();

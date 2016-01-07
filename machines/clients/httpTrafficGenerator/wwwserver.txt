@@ -1,0 +1,2 @@
+#nametag	server:port	urlfile	hits
+webserver	10.0.0.1:80	servidorWeb.txt	1
