@@ -28,7 +28,7 @@ LOGDIR = '../log/'
 ##########################################
 
 
-def request(i):
+def request(i, destination):  # Destination es el fichero .txt con la direccion del servidor
 	global tSimulation
 	
 	startTime = time.time()
@@ -43,7 +43,7 @@ def request(i):
 
 		log.debug('Peticion de cliente (' + str(i) + ') en ' + str(interval) + ' segundos')
 		time.sleep (interval) 
-		os.system('cd ' + RUTA_HTTPTRAFFICGENERATOR + '; java traffic')
+		os.system('cd ' + RUTA_HTTPTRAFFICGENERATOR + '; java traffic ' + destination)
  
 
 	
@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
 
 	logging.basicConfig(
-						filename=LOGDIR + time.strftime('%y%m%d_%H.%M.%S_')+ LOGFILENAME,
+						#filename=LOGDIR + time.strftime('%y%m%d_%H.%M.%S_')+ LOGFILENAME,
 						level=logging.DEBUG,
 						format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
 						)
@@ -66,7 +66,7 @@ if __name__ == '__main__':
 	parser = OptionParser()
 	parser.add_option('-n', default=1, type='int', dest = 'clients', help='Number of clients to make requests')
 	parser.add_option('-t', default=1, type='int', dest = 'time', help='duration of the traffic (seconds)')
-	parser.add_option('-d', default='10.0.0.1', dest = 'webserver', help='IP of the destination web server')
+	parser.add_option('-d', default='wwwserver.txt', dest = 'webserver', help='name of the destination web server file')
 
 	(options, args) = parser.parse_args()
 	tSimulation = options.time
@@ -80,33 +80,33 @@ if __name__ == '__main__':
 	print '--------------------------------------------'
 
 
-	# Esto reemplaza la linea en el fichero servers.txt en la que aparece webserver
-	# por la IP del webserver indicado como destino en las opciones.
-	# Usamos un lock para evitar que se modifique el fichero servers.txt por dos hebras a la vez (race condition)
-	
-	
-	while os.path.isfile("./lock"):
-	    print "Aun existe lock"
-	    time.sleep(1)	
-		   # Cuando ya no hay lock lo capturamos nosotros
-	f = open ('./lock', 'w')
-	
-
-	for line in fileinput.input('../httpTrafficGenerator/servers.txt', inplace=True):
-		l=line.strip().split()
-		if l[0]=='webserver':
-			l[1] = options.webserver + ':80'
-		print '\t'.join(c for c in l)
-
-		#Liberamos el lock file
-	f.close()
-	os.system('rm ./lock')
+# 	# Esto reemplaza la linea en el fichero servers.txt en la que aparece webserver
+# 	# por la IP del webserver indicado como destino en las opciones.
+# 	# Usamos un lock para evitar que se modifique el fichero servers.txt por dos hebras a la vez (race condition)
+# 	
+# 	
+# 	while os.path.isfile("./lock"):
+# 	    print "Aun existe lock"
+# 	    time.sleep(1)	
+# 		   # Cuando ya no hay lock lo capturamos nosotros
+# 	f = open ('./lock', 'w')
+# 	
+# 
+# 	for line in fileinput.input('../httpTrafficGenerator/servers.txt', inplace=True):
+# 		l=line.strip().split()
+# 		if l[0]=='webserver':
+# 			l[1] = options.webserver + ':80'
+# 		print '\t'.join(c for c in l)
+# 
+# 		#Liberamos el lock file
+# 	f.close()
+# 	os.system('rm ./lock')
 
 
 	# A thread is started for every connection to the server. Note that every connection could get n URLs in a persistent connection
 	threads = []
 	for i in range (options.clients):
-		t = Thread(target=request, args=(i,))
+		t = Thread(target=request, args=(i,options.webserver))
 		threads.append(t)
 		t.start()
 
