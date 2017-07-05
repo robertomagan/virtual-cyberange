@@ -13,6 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import argparse
+import os
 
 parser = argparse.ArgumentParser (description='Plot a graph from a csv nfdump file')
 parser.add_argument(dest='fileName', metavar='fileName', action='store', help='file to process', nargs='+')
@@ -21,7 +22,7 @@ args = parser.parse_args()
 dflist = []
 for file in args.fileName: 
     l = open(file).readline()
-    if l == 'No matched flows\n':
+    if l == 'No matched flows\n' or os.path.getsize(file)== 0:
         print "[-] Fichero vacio: " + file
     else:
         print '[+] Procesando fichero: ' + file

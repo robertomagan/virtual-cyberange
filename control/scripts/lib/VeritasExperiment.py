@@ -20,9 +20,24 @@ from threading import Thread
 #LOGLEVEL = logging.DEBUG
 LOGDIR = '../log/'
 
+def cadena_color (cadena, color):
 
+	if (color != "rojo" and color != "verde"):
+		color = "rojo"
 
+	escape = '\x1B['
+	rojo = '31m'
+	verde = '32m'
+	reset = escape + '0m'
 
+	if color == "rojo":
+		color = rojo
+	if color == "verde":
+		color = verde
+
+	
+	return escape + color + cadena + reset
+	
 
 class VeritasExperiment:
 
@@ -99,7 +114,7 @@ class VeritasExperiment:
 		tInicial = time.strftime('%X')
 		beginInterval= datetime.datetime.now()
 		
-		cabecera = ('   -->(execute[' + str(n) + '])$ ' + 
+		cabecera = (cadena_color('   -->(execute[' + str(n) + '])$ ', "rojo") + 
 				  command +
 				  ' (' +
 				  tInicial +
@@ -117,7 +132,7 @@ class VeritasExperiment:
 		endInterval = datetime.datetime.now()
 		interval = endInterval - beginInterval
 		 
-		cabecera = ('   -->(result[' + str(n) + '])$ ' + 
+		cabecera = (cadena_color('   -->(result[' + str(n) + '])$ ',"verde") + 
 				  command +
 				  ' (' +
 				  str(interval.seconds/3600)+'d'+str(interval.seconds%3600/60)+'m'+str(interval.seconds%60)+'s' + 
@@ -140,7 +155,7 @@ class VeritasExperiment:
 		# Ejecución de los comandos cada uno en un thread
 		log = self.log
 		
-		log.info ('[+] Inicio de ejecucion de comandos')
+		log.info ('#################################################\n\t\t\t\t\t\t[+] Inicio de ejecucion de comandos\n\t\t\t\t\t\t#################################################')
 		threads = []
 		n = 1 # Numero de indice que identificara al comando ejecutado
 		
@@ -153,8 +168,9 @@ class VeritasExperiment:
 		for t in threads:
 			t.join()
 
+		log.info ('#################################################\n\t\t\t\t\t\t[+] Inicio de procesado: ' + time.strftime('%X %d/%m/%y') + '\n\t\t\t\t\t\t#################################################')
 
-		log.info ('[+] Inicio de procesado: ' + time.strftime('%X %d/%m/%y'))
+#		log.info ('[+] Inicio de procesado: ' + time.strftime('%X %d/%m/%y'))
 
 		for comando in self.comandosProcesado:
 			self.executeCommand(0, comando[1], n)
