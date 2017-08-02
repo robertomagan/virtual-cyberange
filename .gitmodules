@@ -1,0 +1,3 @@
+[submodule "machines/MSNMsensor"]
+	path = machines/MSNMsensor
+	url = ssh://git@metis.ugr.es/robertomagan/MSNMsensor.git
