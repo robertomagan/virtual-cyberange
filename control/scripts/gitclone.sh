@@ -23,5 +23,5 @@ branch=$1
 for m in ${maquinas[*]}
 do
 	printf "[+] Connecting to: %s\n" $m
-	eval $(printf "ssh nesg@%s \"cd %s; rm -rf %s; git clone git@192.168.56.1:gmacia/VERITASExperimentalScripts -b %s; cd %s; git config --file=.gitmodules submodule.machines/MSNMsensor.url ssh://git@192.168.56.1/robertomagan/MSNMsensor.git\"\n" $m $DIR $project_DIR $branch $project_DIR)
+	eval $(printf "ssh nesg@%s \"cd %s; rm -rf %s; git clone git@192.168.56.1:gmacia/VERITASExperimentalScripts -b %s; cd %s; git config --file=.gitmodules submodule.machines/MSNMsensor.url ssh://git@192.168.56.1/robertomagan/MSNMsensor.git; git submodule update --init --recursive\"\n" $m $DIR $project_DIR $branch $project_DIR)
 done
