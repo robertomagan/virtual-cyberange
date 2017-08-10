@@ -29,6 +29,7 @@ iptables -I FORWARD -i eth2 -j NETFLOW
 # iptables -L -n
 
 #echo
-echo [+] Activando el colector con el comando: nfcapd -w -D -t 600 -l $COLECTOR_DIR -I $HOSTNAME -p 12345
+# rmagan, cambiado -t 600 a -t 60 para hacerlo cada minuto
+echo [+] Activando el colector con el comando: nfcapd -w -D -t 60 -l $COLECTOR_DIR -I $HOSTNAME -p 12345
 
-nfcapd -w -D -t 600 -l $COLECTOR_DIR -I $HOSTNAME -p 12345
+nfcapd -w -D -t 60 -l $COLECTOR_DIR -I $HOSTNAME -p 12345
