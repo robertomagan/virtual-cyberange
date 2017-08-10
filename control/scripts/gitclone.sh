@@ -14,8 +14,7 @@ fi
 
 
 
-#maquinas=(atacante borderRouter routerR1 routerR2 routerR3 m1.2 m2.2 m3.2 dmz wwwserver)
-maquinas=(wwwserver)
+maquinas=(atacante borderRouter routerR1 routerR2 routerR3 m1.2 m2.2 m3.2 dmz wwwserver)
 DIR='git'
 project_DIR='VERITASExperimentalScripts'
 branch=$1
