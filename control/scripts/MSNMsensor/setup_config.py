@@ -32,7 +32,6 @@ config_dir = curr_dir + os.sep + scenario
 for i in sensors:
   try:
     print "Copy config file of sensor %s ..." %(i)
-    print 'scp ' + config_dir + os.sep + i + '.yaml nesg@' + i + ':~/git/VERITASExperimentalScripts/machines/MSNMsensor/src/config/'
     call('scp ' + config_dir + os.sep + i + '.yaml nesg@' + i + ':~/git/VERITASExperimentalScripts/machines/MSNMsensor/src/config/', shell=True)
   except Exception:
     print "Error copying config file of sensor %s: %s" %(i,sys.exc_info()[1])
