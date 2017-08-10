@@ -56,6 +56,17 @@ def traficoHttp (tInicial, duracion, origen, destino, nClientes):
             ]    
     return comandos
 
+def iniciarSensores(tInicial):
+
+    SENSOR_EXEC = CD_WORK_DIR + '/machines/MSNMsensor/scripts/; ./start.sh'
+    
+    comandos = [ 
+                [tInicial, 'ssh nesg@routerR1 "' + SENSOR_EXEC + '"'],
+		[tInicial, 'ssh nesg@routerR2 "' + SENSOR_EXEC + '"'],
+		[tInicial, 'ssh nesg@routerR3 "' + SENSOR_EXEC + '"'],
+		[tInicial, 'ssh nesg@borderRouter "' + SENSOR_EXEC + '"'],
+            ]    
+    return comandos
 
 def exfiltracion (tInicial, duracion, origen, destino_nombre, destino_ipinterna):
     EXFILTRATION = CD_WORK_DIR + '/attacks; ./informationExfiltrated.py '
@@ -109,6 +120,18 @@ def desactivarNetflowRouters ():
                 [0, 'ssh nesg@routerR3 "' + DEACTIVATE_NETFLOW + '"'],
                 [0, 'ssh nesg@borderRouter "' + DEACTIVATE_NETFLOW + '"'] 
             ]
+    return comandos
+
+def pararSensores():
+
+    SENSOR_EXEC = CD_WORK_DIR + '/machines/MSNMsensor/scripts/; ./stop.sh'
+    
+    comandos = [ 
+                [0, 'ssh nesg@routerR1 "' + SENSOR_EXEC + '"'],
+		[0, 'ssh nesg@routerR2 "' + SENSOR_EXEC + '"'],
+		[0, 'ssh nesg@routerR3 "' + SENSOR_EXEC + '"'],
+		[0, 'ssh nesg@borderRouter "' + SENSOR_EXEC + '"'],
+            ]    
     return comandos
 
 def collectSNMP_ifInOctects():
@@ -289,12 +312,13 @@ jerarquico3_ejecucion = (
 						# T=1d0h47m - 24*60*60+2*60+45*60 - Inicio exfiltracion 4444 (5 min)
 						# T=1d1h03m - 25*60*60+3*60		  - Fin 
                           activarNetflowRouters(0) + 
+			  iniciarSensores(1) +
                           traficoHttp(5, 25*60*60+3*60, 'm1.2', 'wwwserver', 30) + 
                           traficoHttp(5, 25*60*60+3*60, 'm2.2', 'wwwserver', 30) + 
                           traficoHttp(5, 25*60*60+3*60, 'm3.2', 'wwwserver', 30) +
                           traficoHttp(8, 25*60*60+3*60, 'm1.2', 'dmz', 10) + 
                           traficoHttp(8, 25*60*60+3*60, 'm2.2', 'dmz', 10) + 
-                          traficoHttp(8, 25*60*60+3*60, 'm3.2', 'dmz', 10) +                         
+                          traficoHttp(8, 25*60*60+3*60, 'm3.2', 'dmz', 10) + 			                          
                           DoS(24*60*60+2*60, 5*60, 'faster', 'm3.2', '172.16.0.4', '192.168.3.8') + 
                           DoS(24*60*60+2*60+15*60, 5*60, 'fast', 'm3.2', '172.16.0.4', '192.168.3.8') + 
                           nmapAttack(24*60*60+2*60+30*60, 5*60, 'm1.2', '172.16.0.254', 3) +
@@ -304,6 +328,7 @@ jerarquico3_ejecucion = (
                         
 jerarquico3_procesado = (
                           desactivarNetflowRouters() + 
+			  pararSensores() +
                           copiarFicherosNfcapd() + 
                           procesaNfdump() +
                         spoofIPs('192.168.3.8', 'private', 200, '192.168.3.') +  #Trafico DoS se hace spoofing en la red. 
