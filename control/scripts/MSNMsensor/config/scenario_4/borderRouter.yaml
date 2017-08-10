@@ -1,24 +1,9 @@
 #
-# Parser Data - Configuration File
+# Border router MSNM configuration file
 #
-#-----------------------------------------------------------------------
-# DataSources:
-#   Source1:   DataSource name
-#     config:    Configuration file for this datasource.
-#     data:      Input files (csv format).
-#   Source2:
-#     ...
-#   SourceN:
-#     ...
-# Master:    Master datasource.
-#            Its config file must contain a KEYS section.
-# Output:
-#   dir:       Output directory to write the output files.
-#   stats:     Log file to write the stats (lines, records, matches).
-#-----------------------------------------------------------------------
 
 DataSources:
-  calibrationFile: /home/roberto/RMAGAN/nesgownCloud/INVESTIGACION/PROYECTOS/Nacionales/VERITAS/DESARROLLO/SENSOR/test_distribuido/config/scenario_4/data/all_datasets.mat
+  calibrationFile: /home/nesg/git/VERITASExperimentalScripts/control/scripts/MSNMsensor/config/scenario_4/data/all_datasets.mat
   calibrationMatrix: XbRc_extended
   calibrationVariables: var_bR_extended
     
@@ -27,7 +12,7 @@ DataSources:
       type: local
       # Module containing the local data source class
       moduleName: msnm.modules.source.netflow
-      captures: ./data/sources/local/netflow/raw/
+      captures: /home/nesg/git/VERITASExperimentalScripts/machines/routers/capturas
       raw: ./data/sources/local/netflow/raw/
       processed: ./data/sources/local/netflow/processed/
       parsed: ./data/sources/local/netflow/parsed/
@@ -36,7 +21,7 @@ DataSources:
       # Run manual (False) or automatic (True) nfcapd
       nfcapdAutomaticStart: False
       # Static mode where the *.dat files are manually provided in parsed folder
-      staticMode: True
+      staticMode: False
       # Path where the *.dat files can be found. These files are the results of the flow parser.
       staticParsedFilesPath: /home/roberto/RMAGAN/nesgownCloud/INVESTIGACION/PROYECTOS/Nacionales/VERITAS/DESARROLLO/SENSOR/dataset/metis/dataset_pepe/data_matlab/matlab_borderRouter/
       # Static files range to build the data for testing. Date limits are included in the results.
@@ -44,20 +29,20 @@ DataSources:
       staticObsRangeEnd: '2016-02-10 13:51'    
 
   remote:
-    R1:
+    routerR1:
       type: remote
-      raw: ./data/sources/remote/R1/raw/
-      parsed: ./data/sources/remote/R1/parsed/
+      raw: ./data/sources/remote/routerR1/raw/
+      parsed: ./data/sources/remote/routerR1/parsed/
       flowParserVariables: 2
-    R2:
+    routerR2:
       type: remote
-      raw: ./data/sources/remote/R2/raw/
-      parsed: ./data/sources/remote/R2/parsed/
+      raw: ./data/sources/remote/routerR2/raw/
+      parsed: ./data/sources/remote/routerR2/parsed/
       flowParserVariables: 2
-    R3:
+    routerR3:
       type: remote
-      raw: ./data/sources/remote/R3/raw/
-      parsed: ./data/sources/remote/R3/parsed/
+      raw: ./data/sources/remote/routerR3/raw/
+      parsed: ./data/sources/remote/routerR3/parsed/
       flowParserVariables: 2
       
 Sensor:
@@ -78,7 +63,7 @@ Sensor:
   phase: 1
   
   # Local unique sensor identifier
-  sid: BR
+  sid: borderRouter
   # EWMA dynamic calibration parameters
   dynamiCalibration:    
     # Batch of observations
@@ -90,7 +75,7 @@ Sensor:
   
   # Server configuration. To listen other sensors queries
   server_address: 
-    ip: 127.0.0.1
+    ip: borderRouter
     port: 9005
   # List of sensor to send data packets
   # None, root sensor
