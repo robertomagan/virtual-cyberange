@@ -34,7 +34,7 @@ for i in sensors:
     print "Copy config file of sensor %s ..." %(i)
     call('scp ' + config_dir + os.sep + i + '.yaml nesg@' + i + ':~/git/VERITASExperimentalScripts/machines/MSNMsensor/src/config/', shell=True)
     print "Remaning file copied to sensor.yaml"
-    call('ssh nesg@' + i + "; cd ~/git/VERITASExperimentalScripts/machines/MSNMsensor/src/config/; mv " + i + ".yaml sensor.yaml", shell=True)
+    call('ssh nesg@' + i + '\"cd ~/git/VERITASExperimentalScripts/machines/MSNMsensor/src/config/; mv ' + i + '.yaml sensor.yaml\"', shell=True)
   except Exception:
     print "Error copying config file of sensor %s: %s" %(i,sys.exc_info()[1])
 
