@@ -23,5 +23,5 @@ branch=$1
 for m in ${maquinas[*]}
 do
 	printf "[+] Connecting to: %s\n" $m
-	eval $(printf "ssh nesg@%s \"cd %s; rm -rf %s; git clone --recursive git@metis.ugr.es:gmacia/VERITASExperimentalScripts -b %s\"\n" $m $DIR $project_DIR $branch)
+	eval $(printf "ssh nesg@%s \"cd %s; rm -rf %s; git clone --recursive git@192.168.56.1:gmacia/VERITASExperimentalScripts -b %s\"\n" $m $DIR $project_DIR $branch)
 done
