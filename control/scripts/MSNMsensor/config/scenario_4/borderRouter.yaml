@@ -1,0 +1,116 @@
+#
+# Parser Data - Configuration File
+#
+#-----------------------------------------------------------------------
+# DataSources:
+#   Source1:   DataSource name
+#     config:    Configuration file for this datasource.
+#     data:      Input files (csv format).
+#   Source2:
+#     ...
+#   SourceN:
+#     ...
+# Master:    Master datasource.
+#            Its config file must contain a KEYS section.
+# Output:
+#   dir:       Output directory to write the output files.
+#   stats:     Log file to write the stats (lines, records, matches).
+#-----------------------------------------------------------------------
+
+DataSources:
+  calibrationFile: /home/roberto/RMAGAN/nesgownCloud/INVESTIGACION/PROYECTOS/Nacionales/VERITAS/DESARROLLO/SENSOR/test_distribuido/config/scenario_4/data/all_datasets.mat
+  calibrationMatrix: XbRc_extended
+  calibrationVariables: var_bR_extended
+    
+  local:
+    Netflow:
+      type: local
+      # Module containing the local data source class
+      moduleName: msnm.modules.source.netflow
+      captures: ./data/sources/local/netflow/raw/
+      raw: ./data/sources/local/netflow/raw/
+      processed: ./data/sources/local/netflow/processed/
+      parsed: ./data/sources/local/netflow/parsed/
+      flowParserConfig: config/netflow_parser.yaml
+      flowParserContents: config/trevenque_netflow.yaml
+      # Run manual (False) or automatic (True) nfcapd
+      nfcapdAutomaticStart: False
+      # Static mode where the *.dat files are manually provided in parsed folder
+      staticMode: True
+      # Path where the *.dat files can be found. These files are the results of the flow parser.
+      staticParsedFilesPath: /home/roberto/RMAGAN/nesgownCloud/INVESTIGACION/PROYECTOS/Nacionales/VERITAS/DESARROLLO/SENSOR/dataset/metis/dataset_pepe/data_matlab/matlab_borderRouter/
+      # Static files range to build the data for testing. Date limits are included in the results.
+      staticObsRangeStart: '2016-02-10 12:21'
+      staticObsRangeEnd: '2016-02-10 13:51'    
+
+  remote:
+    R1:
+      type: remote
+      raw: ./data/sources/remote/R1/raw/
+      parsed: ./data/sources/remote/R1/parsed/
+      flowParserVariables: 2
+    R2:
+      type: remote
+      raw: ./data/sources/remote/R2/raw/
+      parsed: ./data/sources/remote/R2/parsed/
+      flowParserVariables: 2
+    R3:
+      type: remote
+      raw: ./data/sources/remote/R3/raw/
+      parsed: ./data/sources/remote/R3/parsed/
+      flowParserVariables: 2
+      
+Sensor:
+  observation: ./data/monitoring/observation/
+  output: ./data/monitoring/output/
+  model: ./data/calibration/
+  diagnosis: ./data/diagnosis/
+  # Latent variables
+  lv: 2
+  # Data preprocessing method
+  # 0: no preprocessing 
+  # 1: mean-centering 
+  # 2: auto-scaling
+  prep: 2
+  # Choose the phase to compute UCLd:           
+  # 1: Phase I 
+  # 2: Phase II
+  phase: 1
+  
+  # Local unique sensor identifier
+  sid: BR
+  # EWMA dynamic calibration parameters
+  dynamiCalibration:    
+    # Batch of observations
+    B: 30
+    # Forgetting factor
+    lambda: 0.1
+    # enabled?
+    enabled: False
+  
+  # Server configuration. To listen other sensors queries
+  server_address: 
+    ip: 127.0.0.1
+    port: 9005
+  # List of sensor to send data packets
+  # None, root sensor
+  remote_addresses:
+    #DETECTOR:
+      #ip: 127.0.0.1
+      #port: 9005
+       
+GeneralParams:
+  dateFormat: '%Y-%m-%d %H:%M:%S'
+  dateFormatNfcapdFiles: '%Y%m%d%H%M'
+  # Data format for timestamps
+  tsDateFormat: '%Y%m%d%H%M'
+  # Time interval in seconds to get data from local sources
+  dataSourcesScheduling: 60
+  # Polling time interval in seconds for polling data sources
+  dataSourcesPolling: 1
+  # Timeout in seconds to wait the other not ready data sources
+  dataSourcesNotReadyWaitingTime: 5
+  valuesFormat: '%1.5f'
+  serverConnectionTimeout: 15
+  
+  
