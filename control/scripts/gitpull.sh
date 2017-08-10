@@ -12,5 +12,5 @@ DIR='git/VERITASExperimentalScripts'
 for m in ${maquinas[*]}
 do
 	printf "[+] Connecting to: %s\n" $m
-	eval $(printf "ssh nesg@%s \"cd %s; git pull\"\n" $m $DIR)
+	eval $(printf "ssh nesg@%s \"cd %s; git pull; git submodule update --recursive\"\n" $m $DIR)
 done
